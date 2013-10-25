@@ -1,0 +1,42 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="CraneListFileSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\Crane List.xml</Value>
+    </Setting>
+    <Setting Name="BargeListFileSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\Barge List.xml</Value>
+    </Setting>
+    <Setting Name="AllAroundRotationArraySetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\AllAroundRotationArray.xml</Value>
+    </Setting>
+    <Setting Name="EventLogSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\EventLog.xml</Value>
+    </Setting>
+    <Setting Name="StandardCranePositionsSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\StandardCranePositions.xml</Value>
+    </Setting>
+    <Setting Name="CriteriaFolderSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\Criteria\</Value>
+    </Setting>
+    <Setting Name="OverEndRotationArraySetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\OverEndRotationArray.xml</Value>
+    </Setting>
+    <Setting Name="SimpsonMultipliersSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\SimpsonMultipliers.xml</Value>
+    </Setting>
+    <Setting Name="SetupSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\Setup.xml</Value>
+    </Setting>
+    <Setting Name="XLSXTemplateSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\Sheet.xltx</Value>
+    </Setting>
+    <Setting Name="HydrostaticsFolderSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\Hydrostatics\</Value>
+    </Setting>
+    <Setting Name="CrossCurveFolderSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CraneChartCalc\Input\CrossCurves\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
