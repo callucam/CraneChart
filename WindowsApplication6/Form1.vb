@@ -120,9 +120,11 @@ Public Class Form1
         Dim InitialCraneLoad As Double
         Dim Truth As Integer
         Dim CraneWAC(0 To 4, 0 To 3) As Double
+        Dim CraneWACPreLift(0 To 4, 0 To 3) As Double
         Dim LightshipWAC(0 To 0, 0 To 3) As Double
         Dim BallastWAC(0 To 0, 0 To 3) As Double
         Dim TotalWAC(0 To 2, 0 To 3) As Double
+        Dim TotalWACPreLift(0 To 2, 0 To 3) As Double
         Dim BoomExtension As Double
         Dim BoomHeight As Double
         Dim i As Integer
@@ -203,6 +205,11 @@ Public Class Form1
         Dim TotalTCG As Double
         Dim TotalVCG As Double
 
+        Dim TotalMassPreLift As Double
+        Dim TotalLCGPreLift As Double
+        Dim TotalTCGPreLift As Double
+        Dim TotalVCGPreLift As Double
+
         Dim oXL As Excel.Application = Nothing
         Dim oWBs As Excel.Workbooks = Nothing
         Dim oWB As Excel.Workbook = Nothing
@@ -240,22 +247,39 @@ Public Class Form1
         Dim Couple As Integer
 
         Dim CraneTrim As Double
+        Dim CraneTrim2 As Double
         Dim MaxLoadAllowedByBargeVizStability As Double
-        Dim MaxMomentAllowed As Double
+        Dim HalfMaxMomentAllowed As Double
+        Dim FullMaxMomentAllowed As Double
 
-        Dim ModifiedRadius As Double
-        Dim MaxLoadAllowedByBargeVizTipping As Double
+        Dim ModifiedOperatingRadius As Double
+        Dim ModifiedCounterweightRadius As Double
+        Dim HalfMaxLoadAllowedByBargeVizTipping As Double
+        Dim FullMaxLoadAllowedByBargeVizTipping As Double
         Dim MaxLoadAllowedbyBarge As Double
+
+        Dim ModifiedUpperworksRadius As Double
+        Dim ModifiedCrawlerRadius As Double
+        Dim ModifiedBoomRadius As Double
+
+        Dim CounterweightMass As Double
+        Dim CounterweightLCG As Double
+        Dim CounterweightVCG As Double
+        Dim UpperworksMass As Double
+        Dim UpperworksLCG As Double
+        Dim UpperworksVCG As Double
+        Dim CrawlersMass As Double
+        Dim CrawlersLCG As Double
+        Dim CrawlersVCG As Double
+        Dim BoomMass As Double
+        Dim BoomLCG As Double
+        Dim BoomVCG As Double
 
         'Me.TabControl2.SelectedIndex = 2
 
         'frm.ProgressBar1.Max = Worksheets(SheetName).Range("p20") + 2 - 1
         'frm.ProgressBar1.Value = 1
         'frm.ProgressBar1.Refresh
-
-        
-
-
 
         oXL = New Excel.Application
         oXL.Visible = True
@@ -324,7 +348,7 @@ Public Class Form1
         'If ListChartComboBox.SelectedItem.ToString = "Chart2" Then ListLimit = 2
         'If ListChartComboBox.SelectedItem.ToString = "Chart3" Then ListLimit = 3
 
-        ListLimit = MachineListIndex
+        ListLimit = xCrane...<Crane>(CurrentRowCrane).<Config>(ConfigIndex).<ListChart>(MachineListIndex).<MaxMachineList>.Value
 
         ActiveSet = 0
         SheetName = NominalBoomLength / 0.3048 & "-" & ModelAbbreviation & "-" & ListChartComboBox.SelectedItem.ToString & "-" & Math.Round(CranePosition / 0.3048, 0)
@@ -638,6 +662,167 @@ Public Class Form1
 
                     TrimAngle = 180 / 3.1415 * Math.Asin((APDraft - FPDraft) / BargeLength)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    CraneWACPreLift = CraneWAC
+                    CraneWACPreLift(4, 0) = 0
+
+                    Mass = 0
+                    LCGMoment = 0
+                    TCGMoment = 0
+                    VCGMoment = 0
+
+                    For m = 0 To 4
+
+                        Mass = Mass + CraneWACPreLift(m, 0)
+                        LCGMoment = LCGMoment + CraneWACPreLift(m, 0) * CraneWACPreLift(m, 1)
+                        TCGMoment = TCGMoment + CraneWACPreLift(m, 0) * CraneWACPreLift(m, 2)
+                        VCGMoment = VCGMoment + CraneWACPreLift(m, 0) * CraneWACPreLift(m, 3)
+
+                    Next
+
+                    CraneLCG = LCGMoment / Mass
+                    CraneTCG = TCGMoment / Mass
+                    CraneVCG = VCGMoment / Mass
+
+                    TotalWAC = TotalWACPreLift
+
+                    TotalWACPreLift(2, 0) = Mass
+                    TotalWACPreLift(2, 1) = CraneLCG + PositionofCraneCentre
+                    TotalWACPreLift(2, 2) = CraneTCG + PositionofCraneCentreOffCentreline
+                    TotalWACPreLift(2, 3) = CraneVCG + BargeDepth + DeckTimberHeight
+
+                    TotalMassPreLift = 0
+                    TotalLCGMoment = 0
+                    TotalTCGMoment = 0
+                    TotalVCGMoment = 0
+
+                    For m = 0 To 2
+
+                        TotalMassPreLift = TotalMassPreLift + TotalWACPreLift(m, 0)
+                        TotalLCGMoment = TotalLCGMoment + TotalWACPreLift(m, 0) * TotalWACPreLift(m, 1)
+                        TotalTCGMoment = TotalTCGMoment + TotalWACPreLift(m, 0) * TotalWACPreLift(m, 2)
+                        TotalVCGMoment = TotalVCGMoment + TotalWACPreLift(m, 0) * TotalWACPreLift(m, 3)
+
+                    Next
+
+                    TotalLCGPreLift = TotalLCGMoment / TotalMassPreLift
+                    TotalTCGPreLift = TotalTCGMoment / TotalMassPreLift
+                    TotalVCGPreLift = TotalVCGMoment / TotalMassPreLift
+
+                    aa = 0
+
+                    Do While DisplacementArray(aa) <= TotalMassPreLift
+                        aa = aa + 1
+                    Loop
+
+                    Dim LCFDraftPreLift As Double
+                    Dim LCFPreLift As Double
+                    Dim MTCPreLift As Double
+                    Dim LCBPreLift As Double
+                    Dim FPDraftPreLift As Double
+                    Dim APDraftPreLift As Double
+                    Dim TrimInCmPreLift As Double
+                    Dim TrimInMPreLift As Double
+                    Dim ProportionAftPreLift As Double
+                    Dim ProportionFwdPreLift As Double
+                    Dim TrimAnglePreLift As Double
+                    Dim CraneListPreLift As Double
+                    Dim CraneTrimPreLift As Double
+                    Dim HeelAtMinimumResidualPreLift As Double
+
+                    cc = {LCFDraftArray(aa - 1), LCFDraftArray(aa)}
+                    dd = {DisplacementArray(aa - 1), DisplacementArray(aa)}
+                    LCFDraftPreLift = Forecast(TotalMassPreLift, cc, dd)
+                    cc = {LCFArray(aa - 1), LCFArray(aa)}
+                    LCFPreLift = Forecast(TotalMassPreLift, cc, dd)
+                    cc = {MTCArray(aa - 1), MTCArray(aa)}
+                    MTCPreLift = Forecast(TotalMassPreLift, cc, dd)
+                    cc = {LCBArray(aa - 1), LCBArray(aa)}
+                    LCBPreLift = Forecast(TotalMassPreLift, cc, dd)
+                    cc = {FPDraftArray(aa - 1), FPDraftArray(aa)}
+                    FPDraftPreLift = Forecast(TotalMassPreLift, cc, dd)
+                    cc = {APDraftArray(aa - 1), APDraftArray(aa)}
+                    APDraftPreLift = Forecast(TotalMassPreLift, cc, dd)
+
+                    TrimInCmPreLift = (LCBPreLift - TotalLCGPreLift) * TotalMassPreLift / (Density * 1000) / MTCPreLift
+                    TrimInMPreLift = TrimInCmPreLift / 100
+                    ProportionAftPreLift = LCF / BargeLength
+                    ProportionFwdPreLift = 1 - ProportionAftPreLift
+
+                    FPDraftPreLift = FPDraftPreLift - ProportionFwdPreLift * TrimInMPreLift
+                    APDraftPreLift = APDraftPreLift + ProportionAftPreLift * TrimInMPreLift
+                    TrimAnglePreLift = 180 / 3.1415 * Math.Asin((APDraftPreLift - FPDraftPreLift) / BargeLength)
+
+
+                    CraneListPreLift = Math.Abs(Math.Sin((Rotation1) * 3.1415 / 180) * (TrimAnglePreLift)) '+ Math.Abs(Math.Cos((Rotation1) * 3.1415 / 180) * (HeelAtMinimumResidual))
+
+                    CraneTrimPreLift = Math.Cos((Rotation1 * 3.1415 / 180)) * (TrimAnglePreLift) '+ Math.Sin((Rotation1) * 3.1415 / 180) * (HeelAtMinimumResidual)
+
+
+                    GZMax = 0
+                    GZArea = 0
+                    IndexAtMaxGZ = 0
+                    IndexAtVanishingGZ = 0
+
+                    For q = 0 To 900
+
+                        gg = 0
+
+                        Do While DisplacementCCArray(gg) <= TotalMassPreLift
+                            gg = gg + 1
+                        Loop
+
+                        ee = {CCArray(gg - 1, q), CCArray(gg, q)}
+                        ff = {DisplacementCCArray(gg - 1), DisplacementCCArray(gg)}
+                        KNArray(q) = Forecast(TotalMassPreLift, ee, ff)
+                        GZArray(q) = KNArray(q) - TotalVCGPreLift * Math.Sin(HeelArray(q) * 3.1415 / 180)
+
+                        Residual(q) = Math.Abs(GZArray(q) - Math.Abs(TotalTCGPreLift * Math.Cos(HeelArray(q) * 3.1415 / 180)))
+
+                        If GZArray(q) >= GZMax Then
+                            GZMax = GZArray(q)
+                            IndexAtMaxGZ = IndexAtMaxGZ + 1
+                        Else
+                        End If
+
+                    Next
+
+                    MinimumResidual = 999999999
+                    IndexAtMinimumResidual = 0
+
+                    For r = 0 To IndexAtMaxGZ
+                        If Residual(r) < MinimumResidual Then
+                            MinimumResidual = Residual(r)
+                            IndexAtMinimumResidual = IndexAtMinimumResidual + 1
+                        Else
+                        End If
+                    Next
+
+                    HeelAtMinimumResidualPreLift = HeelArray(IndexAtMinimumResidual - 1)
+
+
+
+
+
+
+
+
+
+
+
+
                     GZMax = 0
                     GZArea = 0
                     IndexAtMaxGZ = 0
@@ -726,20 +911,49 @@ Public Class Form1
 
                         CraneTrim = Math.Cos((Rotation1 * 3.1415 / 180)) * (TrimAngle) + Math.Sin((Rotation1) * 3.1415 / 180) * (HeelAtMinimumResidual)
                         MaxLoadAllowedByBargeVizStability = CraneLoad
-                        MaxMomentAllowed = OperatingRadius * InitialCraneLoad
+
+
+
+                        CounterweightMass = xCrane...<Crane>(CurrentRowCrane).<WAC>.<Row3>(0).<Mass>.Value
+                        CounterweightLCG = xCrane...<Crane>(CurrentRowCrane).<WAC>.<Row3>(0).<LCG>.Value
+                        CounterweightVCG = xCrane...<Crane>(CurrentRowCrane).<WAC>.<Row3>(0).<VCG>.Value
+                        UpperworksMass = xCrane...<Crane>(CurrentRowCrane).<WAC>.<Row3>(1).<Mass>.Value
+                        UpperworksLCG = xCrane...<Crane>(CurrentRowCrane).<WAC>.<Row3>(1).<LCG>.Value
+                        UpperworksVCG = xCrane...<Crane>(CurrentRowCrane).<WAC>.<Row3>(1).<VCG>.Value
+                        CrawlersMass = xCrane...<Crane>(CurrentRowCrane).<WAC>.<Row3>(2).<Mass>.Value
+                        CrawlersLCG = xCrane...<Crane>(CurrentRowCrane).<WAC>.<Row3>(2).<LCG>.Value
+                        CrawlersVCG = xCrane...<Crane>(CurrentRowCrane).<WAC>.<Row3>(2).<VCG>.Value
+                        BoomMass = Forecast(EffectiveBoomLength, {xCrane...<Crane>(CurrentRowCrane).<BoomLengthWeight>.<Row2>(ww - 1).<BoomWeight>.Value, xCrane...<Crane>(CurrentRowCrane).<BoomLengthWeight>.<Row2>(ww).<BoomWeight>.Value}, {xCrane...<Crane>(CurrentRowCrane).<BoomLengthWeight>.<Row2>(ww - 1).<BoomLength>.Value, xCrane...<Crane>(CurrentRowCrane).<BoomLengthWeight>.<Row2>(ww).<BoomLength>.Value})
+                        BoomLCG = (BoomExtension / 2 + BoomHingetoCraneCL)
+                        BoomVCG = CrawlerBasetoBoomHinge + BoomHeight / 2
+
+                        HalfMaxMomentAllowed = OperatingRadius * InitialCraneLoad
+                        FullMaxMomentAllowed = OperatingRadius * InitialCraneLoad + CounterweightMass * CounterweightLCG + UpperworksMass * UpperworksLCG + CrawlersMass * CrawlersLCG + BoomMass * BoomLCG
 
                         'ModifiedRadius = Cos(WorksheetFunction.Acos((OperatingRadius / 0.3048) / (EffectiveBoomLength / 0.3048)) + CraneTrim * 3.1415 / 180) * EffectiveBoomLength
                         'ModifiedRadius = Cos(WorksheetFunction.Acos((OperatingRadius / 0.3048) / (EffectiveBoomLength / 0.3048)) + CraneTrim * 3.1415 / 180) * EffectiveBoomLength
                         'ModifiedRadius = Cos(WorksheetFunction.Acos((BoomExtension / 0.3048) / (EffectiveBoomLength / 0.3048)) + CraneTrim * 3.1415 / 180) * EffectiveBoomLength
-                        ModifiedRadius = Math.Cos(Math.Acos(Math.Min(1, (OperatingRadius / 0.3048) / (EffectiveBoomLength / 0.3048))) + CraneTrim * 3.1415 / 180) * EffectiveBoomLength
 
-                        MaxLoadAllowedByBargeVizTipping = MaxMomentAllowed / ModifiedRadius
+                        'ModifiedOperatingRadius = Math.Cos(Math.Acos(Math.Min(1, (OperatingRadius / 0.3048) / (EffectiveBoomLength / 0.3048))) + CraneTrim * 3.1415 / 180) * EffectiveBoomLength
 
-                        MaxLoadAllowedbyBarge = Math.Min(MaxLoadAllowedByBargeVizTipping, MaxLoadAllowedByBargeVizStability)
+                        ModifiedOperatingRadius = Math.Cos(Math.Acos(((OperatingRadius / 0.3048) / (EffectiveBoomLength / 0.3048))) + CraneTrim * 3.1415 / 180) * EffectiveBoomLength
+
+                        'ModifiedOperatingRadius = OperatingRadius * Math.Cos(3.1415 / 180 * (-CraneTrim2)) + (BoomHeight + CrawlerBasetoBoomHinge) * Math.Sin(3.1415 / 180 * (-CraneTrim2))
+
+                        ModifiedCounterweightRadius = CounterweightLCG * Math.Cos(3.1415 / 180 * (CraneTrim2)) + CounterweightVCG * Math.Sin(3.1415 / 180 * (CraneTrim2))
+                        ModifiedUpperworksRadius = UpperworksLCG * (Math.Cos(3.1415 / 180 * (CraneTrim2))) + UpperworksVCG * Math.Sin(3.1415 / 180 * (CraneTrim2))
+                        ModifiedCrawlerRadius = CrawlersLCG * (Math.Cos(3.1415 / 180 * (CraneTrim2))) + CrawlersVCG * Math.Sin(3.1415 / 180 * (CraneTrim2))
+                        ModifiedBoomRadius = BoomLCG * (Math.Cos(3.1415 / 180 * (CraneTrim2))) + BoomVCG * Math.Sin(3.1415 / 180 * (CraneTrim2))
+
+                        HalfMaxLoadAllowedByBargeVizTipping = HalfMaxMomentAllowed / ModifiedOperatingRadius
+
+                        FullMaxLoadAllowedByBargeVizTipping = (FullMaxMomentAllowed - (CounterweightMass * ModifiedCounterweightRadius + UpperworksMass * ModifiedUpperworksRadius + CrawlersMass * ModifiedCrawlerRadius + BoomMass * ModifiedBoomRadius)) / ModifiedOperatingRadius
+
+                        MaxLoadAllowedbyBarge = Math.Min(HalfMaxLoadAllowedByBargeVizTipping, MaxLoadAllowedByBargeVizStability)
 
                         ReasonID = 1
 
-                        If MaxLoadAllowedByBargeVizTipping < MaxLoadAllowedByBargeVizStability Then
+                        If HalfMaxLoadAllowedByBargeVizTipping < MaxLoadAllowedByBargeVizStability Then
                             ReasonID = 2
                         End If
 
@@ -811,6 +1025,33 @@ Public Class Form1
                         DebuggingWorksheet.Range("ao2").Offset(DebugIndex, 0).Value = TotalWAC(2, 3)
 
                         DebuggingWorksheet.Range("ap2").Offset(DebugIndex, 0).Value = CraneLoad
+
+                        CraneTrim2 = Math.Cos((Rotation1 * 3.1415 / 180)) * (TrimAngle) + Math.Sin((Rotation1) * 3.1415 / 180) * (HeelAtMinimumResidual)
+                        DebuggingWorksheet.Range("aq2").Offset(DebugIndex, 0).Value = CraneTrim2
+                        DebuggingWorksheet.Range("ar2").Offset(DebugIndex, 0).Value = BoomAngle + CraneTrim2
+                        DebuggingWorksheet.Range("as2").Offset(DebugIndex, 0).Value = EffectiveBoomLength * (Math.Cos(3.1415 / 180 * (BoomAngle + CraneTrim2))) + BoomHingetoCraneCL
+
+                        DebuggingWorksheet.Range("at2").Offset(DebugIndex, 0).Value = APDraftPreLift
+                        DebuggingWorksheet.Range("au2").Offset(DebugIndex, 0).Value = FPDraftPreLift
+
+                        DebuggingWorksheet.Range("av2").Offset(DebugIndex, 0).Value = CraneTrimPreLift
+                        DebuggingWorksheet.Range("aw2").Offset(DebugIndex, 0).Value = HeelAtMinimumResidualPreLift
+
+                        DebuggingWorksheet.Range("ax2").Offset(DebugIndex, 0).Value = BoomAngle + CraneTrimPreLift
+                        DebuggingWorksheet.Range("ay2").Offset(DebugIndex, 0).Value = EffectiveBoomLength * (Math.Cos(3.1415 / 180 * (BoomAngle + CraneTrimPreLift))) + BoomHingetoCraneCL
+
+                        DebuggingWorksheet.Range("az2").Offset(DebugIndex, 0).Value = HalfMaxLoadAllowedByBargeVizTipping
+                        DebuggingWorksheet.Range("ba2").Offset(DebugIndex, 0).Value = FullMaxLoadAllowedByBargeVizTipping
+
+                        
+
+
+                        'DebuggingWorksheet.Range("ax2").Offset(DebugIndex, 0).Value = ModifiedOperatingRadius
+
+
+                        'DebuggingWorksheet.Range("aw2").Offset(DebugIndex, 0).Value = Math.Cos(Math.Acos(((OperatingRadius / 0.3048) / (EffectiveBoomLength / 0.3048))) + CraneTrim2 * 3.1415 / 180) * EffectiveBoomLength
+
+
 
                         ''Other
 

@@ -23,8 +23,7 @@ Partial Class Form2
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.CopyH = New System.Windows.Forms.Button()
-        Me.SaveH = New System.Windows.Forms.Button()
+        Me.ModifyH = New System.Windows.Forms.Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -36,31 +35,21 @@ Partial Class Form2
         Me.DataGridView1.Size = New System.Drawing.Size(700, 500)
         Me.DataGridView1.TabIndex = 0
         '
-        'CopyH
+        'ModifyH
         '
-        Me.CopyH.Location = New System.Drawing.Point(12, 527)
-        Me.CopyH.Name = "CopyH"
-        Me.CopyH.Size = New System.Drawing.Size(139, 23)
-        Me.CopyH.TabIndex = 1
-        Me.CopyH.Text = "Paste from Clipboard"
-        Me.CopyH.UseVisualStyleBackColor = True
-        '
-        'SaveH
-        '
-        Me.SaveH.Location = New System.Drawing.Point(157, 527)
-        Me.SaveH.Name = "SaveH"
-        Me.SaveH.Size = New System.Drawing.Size(139, 23)
-        Me.SaveH.TabIndex = 2
-        Me.SaveH.Text = "Save Hydrostatics"
-        Me.SaveH.UseVisualStyleBackColor = True
+        Me.ModifyH.Location = New System.Drawing.Point(637, 518)
+        Me.ModifyH.Name = "ModifyH"
+        Me.ModifyH.Size = New System.Drawing.Size(75, 23)
+        Me.ModifyH.TabIndex = 2
+        Me.ModifyH.Text = "Modify ..."
+        Me.ModifyH.UseVisualStyleBackColor = True
         '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(784, 562)
-        Me.Controls.Add(Me.SaveH)
-        Me.Controls.Add(Me.CopyH)
+        Me.Controls.Add(Me.ModifyH)
         Me.Controls.Add(Me.DataGridView1)
         Me.Name = "Form2"
         Me.Text = "Hydrostatics"
@@ -69,6 +58,5 @@ Partial Class Form2
 
     End Sub
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
-    Friend WithEvents CopyH As System.Windows.Forms.Button
-    Friend WithEvents SaveH As System.Windows.Forms.Button
+    Friend WithEvents ModifyH As System.Windows.Forms.Button
 End Class

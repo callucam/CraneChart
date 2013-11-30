@@ -23,8 +23,7 @@ Partial Class Form3
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.SaveC = New System.Windows.Forms.Button()
-        Me.CopyC = New System.Windows.Forms.Button()
+        Me.ModifyC = New System.Windows.Forms.Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -36,31 +35,21 @@ Partial Class Form3
         Me.DataGridView1.Size = New System.Drawing.Size(700, 500)
         Me.DataGridView1.TabIndex = 0
         '
-        'SaveC
+        'ModifyC
         '
-        Me.SaveC.Location = New System.Drawing.Point(157, 527)
-        Me.SaveC.Name = "SaveC"
-        Me.SaveC.Size = New System.Drawing.Size(139, 23)
-        Me.SaveC.TabIndex = 4
-        Me.SaveC.Text = "Save Cross Curves"
-        Me.SaveC.UseVisualStyleBackColor = True
-        '
-        'CopyC
-        '
-        Me.CopyC.Location = New System.Drawing.Point(12, 527)
-        Me.CopyC.Name = "CopyC"
-        Me.CopyC.Size = New System.Drawing.Size(139, 23)
-        Me.CopyC.TabIndex = 3
-        Me.CopyC.Text = "Copy from Clipboard"
-        Me.CopyC.UseVisualStyleBackColor = True
+        Me.ModifyC.Location = New System.Drawing.Point(637, 518)
+        Me.ModifyC.Name = "ModifyC"
+        Me.ModifyC.Size = New System.Drawing.Size(75, 23)
+        Me.ModifyC.TabIndex = 4
+        Me.ModifyC.Text = "Modify ..."
+        Me.ModifyC.UseVisualStyleBackColor = True
         '
         'Form3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(784, 562)
-        Me.Controls.Add(Me.SaveC)
-        Me.Controls.Add(Me.CopyC)
+        Me.Controls.Add(Me.ModifyC)
         Me.Controls.Add(Me.DataGridView1)
         Me.Name = "Form3"
         Me.Text = "Cross Curves"
@@ -69,6 +58,5 @@ Partial Class Form3
 
     End Sub
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
-    Friend WithEvents SaveC As System.Windows.Forms.Button
-    Friend WithEvents CopyC As System.Windows.Forms.Button
+    Friend WithEvents ModifyC As System.Windows.Forms.Button
 End Class

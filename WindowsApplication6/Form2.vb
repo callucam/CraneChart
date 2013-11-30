@@ -1,48 +1,25 @@
-﻿Public Class Form2
+﻿Imports Microsoft.Office.Interop
 
-    Private Sub CopyH_Click(sender As Object, e As EventArgs) Handles CopyH.Click
-        Dim s As String
-        Try
-            s = Clipboard.GetText()
-            Dim i, ii As Integer
+Public Class Form2
 
-            Dim tArr() As String = s.Split(ControlChars.NewLine)
-            Dim arT() As String
-            Dim cc, iRow, iCol As Integer
+    Private Sub ModifyH_Click(sender As Object, e As EventArgs) Handles ModifyH.Click
 
-            iRow = DataGridView1.SelectedCells(0).RowIndex
-            iCol = DataGridView1.SelectedCells(0).ColumnIndex
-            For i = 0 To tArr.Length - 1
-                If tArr(i) <> "" Then
-                    arT = tArr(i).Split(vbTab)
-                    cc = iCol
-                    For ii = 0 To arT.Length - 1
-                        If cc > DataGridView1.ColumnCount - 1 Then Exit For
-                        If iRow > DataGridView1.Rows.Count - 1 Then Exit Sub
-                        With DataGridView1.Item(cc, iRow)
-                            .Value = arT(ii).TrimStart
+        Dim oXL As Excel.Application = Nothing
+        Dim oWBs As Excel.Workbooks = Nothing
+        Dim oWB As Excel.Workbook = Nothing
+        Dim DebuggingWorksheet As Excel.Worksheet = Nothing
+        Dim ResultsWorksheet As Excel.Worksheet = Nothing
+        Dim ContentWorksheet As Excel.Worksheet = Nothing
 
-                        End With
-                        cc = cc + 1
-                    Next
-                    iRow = iRow + 1
-                End If
+        Dim oCells As Excel.Range = Nothing
 
-            Next
+        oXL = New Excel.Application
+        oXL.Visible = True
+        oWBs = oXL.Workbooks
+        oWB = oWBs.Open("C:\CraneChartCalc\Input\Hydrostatics\AddHydrostatics.xlsx")
+        'oWB = oWBs.Open(My.Settings.XLSXTemplateSetting)
+        'DebuggingWorksheet = oWB.Worksheets(1)
+        'DebuggingWorksheet.Range("g2:s1000").Font.ColorIndex = 3
 
-        Catch ex As Exception
-            MsgBox("Please redo Copy and Click on cell")
-        End Try
-    End Sub
-
-    Private Sub SaveH_Click(sender As Object, e As EventArgs) Handles SaveH.Click
-        '    For i = 0 To DataGridView1.RowCount - 1
-        '        Form1.xCrane...<Crane>(Form1.CurrentRowCrane).<WAC>.<Row3>(i).<Name>.Value = DataGridViewWAC.Item(0, i).Value
-        '        Form1.xCrane...<Crane>(Form1.CurrentRowCrane).<WAC>.<Row3>(i).<Mass>.Value = DataGridViewWAC.Item(1, i).Value
-        '        Form1.xCrane...<Crane>(Form1.CurrentRowCrane).<WAC>.<Row3>(i).<LCG>.Value = DataGridViewWAC.Item(2, i).Value
-        '        Form1.xCrane...<Crane>(Form1.CurrentRowCrane).<WAC>.<Row3>(i).<TCG>.Value = DataGridViewWAC.Item(3, i).Value
-        '        Form1.xCrane...<Crane>(Form1.CurrentRowCrane).<WAC>.<Row3>(i).<VCG>.Value = DataGridViewWAC.Item(4, i).Value
-        '    Next
-        '    Form1.xCrane.Save(My.Settings.CraneListFileSetting)
     End Sub
 End Class
