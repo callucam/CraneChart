@@ -2284,7 +2284,7 @@ Public Class Form1
 
         'GZArea = GZArea / 3 * 3.1415 / 180 * 0.1 - TotalTCG * 3.1415 / 180 * HeelAtMaxGZ
         GZArea = GZArea / 3 * 3.1415 / 180 * 0.1 - Math.Abs(TotalTCG * 3.1415 / 180 * HeelAtMaxGZ) + Math.Abs(TotalTCG * 3.1415 / 180 * HeelAtMinimumResidual / 2)
-        LeastFreeboard = BargeDepthVar - Math.Max(APDraft, FPDraft) + BargeBreadthVar * Math.Tan(HeelAtMinimumResidual * 3.1415 / 180) / 2 - 0.075
+        LeastFreeboard = BargeDepthVar - Math.Max(APDraft, FPDraft) + BargeBreadthVar * Math.Tan(Math.Abs(HeelAtMinimumResidual) * -3.1415 / 180) / 2 - 0.075
 
         'CraneList = Sin((Rotation1) * 3.1415 / 180) * (TrimAngle) + Cos((Rotation1) * 3.1415 / 180) * (HeelAtMinimumResidual)
 
