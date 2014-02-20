@@ -343,6 +343,11 @@ Public Class Form1
 
         ListLimit = xCrane...<Crane>(CurrentRowCrane).<Config>(ConfigIndex).<ListChart>(MachineListIndex).<MaxMachineList>.Value
 
+        If ListLimit = 0 Then
+            ListLimit = 0.44
+        End If
+
+
         ActiveSet = 0
         SheetName = NominalBoomLength / 0.3048 & "-" & ModelAbbreviation & "-" & ListChartComboBox.SelectedItem.ToString & "-" & Math.Round(CranePosition / 0.3048, 0)
 
